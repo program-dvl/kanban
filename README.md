@@ -14,11 +14,5 @@ Database : Mysql
 
 # Swagger setup
 Open ```documentation/index.json``` and replace ```host``` attribute according to project path.
+
 Implemented API listing : ```http://project_path/documentation```
-
-
-# Run testcases
-
-```
- vendor/bin/phpunit
-```
