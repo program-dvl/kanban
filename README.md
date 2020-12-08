@@ -1,6 +1,7 @@
 # Kanban Board
 
 Framework : Laravel ( 8.12 )
+
 Database : Mysql
 
 # Installation steps
