@@ -38,12 +38,12 @@ class StateController extends Controller
         $this->stateRepository = $stateRepository;
     }
 
-     /**
-     * Create new state.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return Illuminate\Http\JsonResponse
-     */
+    /**
+    * Create new state.
+    *
+    * @param \Illuminate\Http\Request $request
+    * @return Illuminate\Http\JsonResponse
+    */
     public function store(Request $request): JsonResponse
     {
         // Server side validations
@@ -54,8 +54,8 @@ class StateController extends Controller
 
         $validator = Validator::make($request->all(), $validation);
 
-         // If request parameter have any error
-         if ($validator->fails()) {
+        // If request parameter have any error
+        if ($validator->fails()) {
             return $this->responseHelper->error(
                 Response::HTTP_UNPROCESSABLE_ENTITY,
                 Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
@@ -82,7 +82,7 @@ class StateController extends Controller
      */
     public function destroy(Request $request, int $stateId): JsonResponse
     {
-        try{
+        try {
 
             // Delete State
             $state = $this->stateRepository->delete($stateId);
@@ -92,7 +92,6 @@ class StateController extends Controller
             $apiMessage = 'State deleted successfully';
 
             return $this->responseHelper->success($apiStatus, $apiMessage);
-
         } catch (ModelNotFoundException $e) {
             return $this->responseHelper->error(
                 Response::HTTP_NOT_FOUND,
@@ -111,7 +110,7 @@ class StateController extends Controller
      */
     public function update(Request $request, int $stateId): JsonResponse
     {
-        try{
+        try {
             // Server side validations
             $validation = [
                 'name' => 'required|max:255',
@@ -129,14 +128,16 @@ class StateController extends Controller
                 );
             }
 
-            // Check valid order id exist or not
-            $return = $this->stateRepository->checkOrderIdExist($request->order_id, $stateId);
-            if (!$return) {
-                return $this->responseHelper->error(
-                    Response::HTTP_UNPROCESSABLE_ENTITY,
-                    Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
-                    'Please select valid order id'
-                );
+            if (isset($request->order_id)) {
+                // Check valid order id exist or not
+                $return = $this->stateRepository->checkOrderIdExist($request->order_id, $stateId);
+                if (!$return) {
+                    return $this->responseHelper->error(
+                        Response::HTTP_UNPROCESSABLE_ENTITY,
+                        Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
+                        'Please select valid order id'
+                    );
+                }
             }
 
             // Update State
@@ -148,7 +149,6 @@ class StateController extends Controller
             $apiData = $state->toArray();
 
             return $this->responseHelper->success($apiStatus, $apiMessage, $apiData);
-
         } catch (ModelNotFoundException $e) {
             return $this->responseHelper->error(
                 Response::HTTP_NOT_FOUND,
@@ -164,7 +164,8 @@ class StateController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return Illuminate\Http\JsonResponse
      */
-    public function getBoard(Request $request){
+    public function getBoard(Request $request)
+    {
         
         // Get state wise tasks
         $apiData = $this->stateRepository->getBoard();
@@ -175,5 +176,4 @@ class StateController extends Controller
 
         return $this->responseHelper->success($apiStatus, $apiMessage, $apiData);
     }
-
 }

@@ -88,10 +88,10 @@ class StateRepository
     public function checkOrderIdExist(int $orderId, int $stateId)
     {
         $state = $this->state->findOrfail($stateId);
-        if($state->order_id == $orderId){
+        if ($state->order_id == $orderId) {
             return true;
         }
-        if($this->state->where('order_id', $orderId)->exists()){
+        if ($this->state->where('order_id', $orderId)->exists()) {
             return false;
         }
         return true;

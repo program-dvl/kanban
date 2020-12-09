@@ -56,12 +56,12 @@ class TaskController extends Controller
         return $this->responseHelper->success($apiStatus, $apiMessage, $apiData, false);
     }
 
-     /**
-     * Create new task.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return Illuminate\Http\JsonResponse
-     */
+    /**
+    * Create new task.
+    *
+    * @param \Illuminate\Http\Request $request
+    * @return Illuminate\Http\JsonResponse
+    */
     public function store(Request $request): JsonResponse
     {
         // Server side validations
@@ -76,8 +76,8 @@ class TaskController extends Controller
 
         $validator = Validator::make($request->all(), $validation);
 
-         // If request parameter have any error
-         if ($validator->fails()) {
+        // If request parameter have any error
+        if ($validator->fails()) {
             return $this->responseHelper->error(
                 Response::HTTP_UNPROCESSABLE_ENTITY,
                 Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
@@ -104,7 +104,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, int $taskId): JsonResponse
     {
-        try{
+        try {
             // Server side validations
             $validation = [
                 'name' => 'sometimes|required|max:255',
@@ -134,7 +134,6 @@ class TaskController extends Controller
             $apiData = $task->toArray();
 
             return $this->responseHelper->success($apiStatus, $apiMessage, $apiData);
-
         } catch (ModelNotFoundException $e) {
             return $this->responseHelper->error(
                 Response::HTTP_NOT_FOUND,
@@ -153,7 +152,7 @@ class TaskController extends Controller
      */
     public function show(Request $request, int $taskId): JsonResponse
     {
-        try{
+        try {
 
             // Get task detail
             $task = $this->taskRepository->find($taskId);
@@ -164,7 +163,6 @@ class TaskController extends Controller
             $apiData = $task->toArray();
 
             return $this->responseHelper->success($apiStatus, $apiMessage, $apiData);
-
         } catch (ModelNotFoundException $e) {
             return $this->responseHelper->error(
                 Response::HTTP_NOT_FOUND,
@@ -183,7 +181,7 @@ class TaskController extends Controller
      */
     public function destroy(Request $request, int $taskId): JsonResponse
     {
-        try{
+        try {
 
             // Update Task
             $task = $this->taskRepository->delete($taskId);
@@ -193,7 +191,6 @@ class TaskController extends Controller
             $apiMessage = 'Task deleted successfully';
 
             return $this->responseHelper->success($apiStatus, $apiMessage);
-
         } catch (ModelNotFoundException $e) {
             return $this->responseHelper->error(
                 Response::HTTP_NOT_FOUND,
@@ -202,5 +199,4 @@ class TaskController extends Controller
             );
         }
     }
-
 }

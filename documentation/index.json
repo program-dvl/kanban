@@ -91,7 +91,7 @@
       },
       "get": {
         "operationId": "Get task detail",
-        "summary": "Admin - Get News detail by ID(Milestone - 4)",
+        "summary": "Get task details",
         "consumes": [
           "application/json"
         ],
