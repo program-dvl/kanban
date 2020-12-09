@@ -7,7 +7,7 @@ use App\Models\State;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\StateRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
